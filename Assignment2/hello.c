@@ -5,6 +5,7 @@
  *    By Mark Loiseau (http://markloiseau.com)
  *
  *    Background: http://tldp.org/HOWTO/Module-HOWTO/x73.html
+ *    TEST COMMIT LOCAL
  */
 
 // Defining __KERNEL__ and MODULE allows us to access kernel-level code not usually available to userspace programs.

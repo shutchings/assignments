@@ -1,8 +1,9 @@
 /*
- *    hello.c - Simple example Loadable Kernel Module that prints
+ *    my-module.c - Simple example Loadable Kernel Module that prints
  *              output to the syslog
  *
  *    By Mark Loiseau (http://markloiseau.com)
+ *    Edited by Steve Hutchings
  *
  *    Background: http://tldp.org/HOWTO/Module-HOWTO/x73.html
  */
@@ -20,16 +21,16 @@
 #include <linux/init.h>		// included for __init and __exit macros
 
 
-static int __init hello_init(void)
+static int __init my_module_init(void)
 {
-    printk(KERN_INFO "Loading the hello module.\n");
+    printk(KERN_INFO "LOADING my-module, which was written by Steve Hutchings\n");
     return 0;	// Non-zero return means that the module couldn't be loaded.
 }
 
-static void __exit hello_cleanup(void)
+static void __exit my_module_cleanup(void)
 {
-    printk(KERN_INFO "Unloading the hello module.\n");
+    printk(KERN_INFO "UNLOADING my-module, which was written by Steve Hutchings\n");
 }
 
-module_init(hello_init);
-module_exit(hello_cleanup);
+module_init(my_module_init);
+module_exit(my_module_cleanup);

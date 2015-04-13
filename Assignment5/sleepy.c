@@ -39,6 +39,8 @@ MODULE_LICENSE("GPL");
 
 /* parameters */
 static int sleepy_ndevices = SLEEPY_NDEVICES;
+static int flag = -1;
+static DECLARE_WAIT_QUEUE_HEAD(wq);
 
 module_param(sleepy_ndevices, int, S_IRUGO);
 /* ================================================================ */
@@ -94,6 +96,7 @@ sleepy_read(struct file *filp, char __user *buf, size_t count,
     return -EINTR;
 	
   /* YOUR CODE HERE */
+  printk(KERN_INFO "Read from sleepy device %d\n", iminor(filp->f_path.dentry->d_inode));
 
   /* END YOUR CODE */
 	
@@ -112,6 +115,21 @@ sleepy_write(struct file *filp, const char __user *buf, size_t count,
     return -EINTR;
 	
   /* YOUR CODE HERE */
+  printk(KERN_INFO "Wrote to sleepy device %s\n", buf);
+
+  int delay;
+
+  // If argument length <= 4 bytes...
+  //if (count > 4)
+  //  return -EINVAL;
+
+  // If argument is negative, don't sleep
+  
+
+  // If argument is positive, sleep for appropriate time
+
+  // Sleep
+  //wait_event_interruptible_timeout(my_queue, flag == , delay);
 
   /* END YOUR CODE */
 	

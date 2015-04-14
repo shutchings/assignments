@@ -110,21 +110,34 @@ sleepy_write(struct file *filp, const char __user *buf, size_t count,
 {
   struct sleepy_dev *dev = (struct sleepy_dev *)filp->private_data;
   ssize_t retval = 0;
+  int devNum = iminor(filp->f_path.dentry->d_inode);
+  char mybuf[5];
+  char * pEnd;
+  int delay = 0;
 	
   if (mutex_lock_killable(&dev->sleepy_mutex))
     return -EINTR;
 	
   /* YOUR CODE HERE */
-  printk(KERN_INFO "Wrote to sleepy device %s\n", buf);
 
-  int delay;
+  // If argument length is not 4 bytes...
+  if (count != 4) {
+    printk(KERN_WARNING "Invalid number of bytes. User entered %d bytes\n", count);
+    mutex_unlock(&dev->sleepy_mutex);
+    return -EINVAL;
+  }
 
-  // If argument length <= 4 bytes...
-  //if (count > 4)
-  //  return -EINVAL;
+  // Convert buf to delay
+  strncpy(mybuf, buf, 4);
+  mybuf[4] = '\0';
+  delay = kstrtol(mybuf, &pEnd, 10);
+  printk(KERN_INFO "Delay %d\n", delay);
+  mutex_unlock(&dev->sleepy_mutex);
+  return count;
+  
 
   // If argument is negative, don't sleep
-  
+  //return 0;
 
   // If argument is positive, sleep for appropriate time
 
